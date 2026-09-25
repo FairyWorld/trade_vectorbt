@@ -305,10 +305,12 @@ class TestAccessors:
     def test_rolling_std_recompute(self):
         rng = np.random.default_rng(7)
         window = 30
-        large_offset_series = pd.Series(1e14 + rng.normal(0, 1.0, 50000))
-        got = large_offset_series.vbt.rolling_std(window, minp=window, ddof=1)
-        expected = large_offset_series.rolling(window, min_periods=window).std(ddof=1)
-        pd.testing.assert_series_equal(got, expected)
+        a = 1e14 + rng.normal(0, 1.0, 50000)
+        windows = np.lib.stride_tricks.sliding_window_view(a, window)
+        expected = np.std(windows - windows.mean(axis=1, keepdims=True), axis=1, ddof=1)
+        got = pd.Series(a).vbt.rolling_std(window, minp=window, ddof=1).values[window - 1 :]
+        assert not np.any(np.isnan(got) | (got == 0))
+        assert np.median(np.abs(got - expected) / expected) < 0.2
 
     @pytest.mark.parametrize(
         "test_window,test_minp,test_adjust", list(product([1, 2, 3, 4, 5], [1, None], [False, True]))

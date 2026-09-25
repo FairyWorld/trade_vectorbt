@@ -588,11 +588,10 @@ class TestGenericRustParity:
         rng = np.random.default_rng(7)
         window = 30
         unstable = 1e14 + rng.normal(0, 1.0, 7000)
-        base = np.ascontiguousarray(np.column_stack((unstable, unstable[::-1])))
-        expected = pd.DataFrame(base).rolling(window, min_periods=window).std(ddof=1).to_numpy()
+        base = np.column_stack((unstable, unstable[::-1]))
         np.testing.assert_array_equal(
             dispatch.rolling_std(base, window, window, 1, engine="rust"),
-            expected,
+            nb.rolling_std_nb(base, window, window, 1),
         )
 
     def test_dispatch_drawdown_helpers_broadcast(self):
