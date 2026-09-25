@@ -27,17 +27,9 @@ def deflated_sharpe_ratio(
 ) -> tp.Array1d:
     """Deflated Sharpe Ratio (DSR).
 
-    Probability that the estimated Sharpe ratio `est_sharpe` exceeds the expected maximum
-    Sharpe ratio of `nb_trials` unskilled strategies, using the Sharpe ratio standard error
-    of Bailey and López de Prado (2012), which depends on the skewness and the kurtosis of
-    the returns. All Sharpe ratios and moments must be expressed per period (not annualized).
+    All inputs must be per period (not annualized). `kurtosis` must be non-excess (3 for normal returns).
 
-    `kurtosis` is the non-excess (Pearson) kurtosis, which equals 3 for Gaussian returns.
-    `backtest_horizon` is the number of observed returns and can be given per column.
-
-    See [Deflated Sharpe Ratio](https://gmarti.gitlab.io/qfin/2018/05/30/deflated-sharpe-ratio.html)
-    and Bailey, D. H., & López de Prado, M. (2014). The Deflated Sharpe Ratio: Correcting for
-    Selection Bias, Backtest Overfitting and Non-Normality. The Journal of Portfolio Management."""
+    See [Deflated Sharpe Ratio](https://gmarti.gitlab.io/qfin/2018/05/30/deflated-sharpe-ratio.html)."""
     SR0 = approx_exp_max_sharpe(0, var_sharpe, nb_trials)
 
     return norm.cdf(

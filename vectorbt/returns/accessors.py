@@ -602,10 +602,6 @@ class ReturnsAccessor(GenericAccessor):
         if nb_trials is None:
             nb_trials = self.wrapper.shape_2d[1]
         returns = to_2d_array(self.obj)
-        # Missing returns are excluded from the moments and the horizon rather than
-        # counted as zero-return periods, consistent with `ReturnsAccessor.sharpe_ratio`.
-        # The formula requires the (non-excess) kurtosis: it equals 3 for Gaussian
-        # returns, which recovers the classic Lo (2002) standard error of the Sharpe ratio.
         result = metrics.deflated_sharpe_ratio(
             est_sharpe=sharpe_ratio / np.sqrt(self.ann_factor),
             var_sharpe=var_sharpe / self.ann_factor,
