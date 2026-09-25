@@ -292,12 +292,73 @@ class TestAccessors:
     def test_deflated_sharpe_ratio(self):
         pd.testing.assert_series_equal(
             rets.vbt.returns.deflated_sharpe_ratio(risk_free=0.01),
-            pd.Series([np.nan, np.nan, 0.0005355605507117676], index=rets.columns, name="deflated_sharpe_ratio"),
+            pd.Series(
+                [0.2374973566617728, 5.910048655681186e-16, 0.0032783041604936523],
+                index=rets.columns,
+                name="deflated_sharpe_ratio",
+            ),
         )
         pd.testing.assert_series_equal(
             rets.vbt.returns.deflated_sharpe_ratio(risk_free=0.03),
-            pd.Series([np.nan, np.nan, 0.0003423112350834066], index=rets.columns, name="deflated_sharpe_ratio"),
+            pd.Series(
+                [0.15146264148773053, 5.864288083101271e-16, 0.002229547585230213],
+                index=rets.columns,
+                name="deflated_sharpe_ratio",
+            ),
         )
+
+    def test_deflated_sharpe_ratio_reference(self):
+        """DSR matches Bailey & López de Prado with non-excess kurtosis and NaNs omitted."""
+        from scipy.stats import kurtosis, norm, skew
+
+        from vectorbt.returns.metrics import approx_exp_max_sharpe
+
+        np.random.seed(seed)
+        n = 500
+        arr = np.random.standard_t(4, size=(n, 3)) * 0.01 + 0.001
+        arr[np.random.uniform(size=(n, 3)) < 0.05] = np.nan
+        df = pd.DataFrame(arr, index=pd.date_range("2020", periods=n, freq="D"), columns=["a", "b", "c"])
+        acc = df.vbt.returns(freq="D", year_freq="365 days")
+        ann_factor = 365.0
+        sharpe = acc.sharpe_ratio().values
+        sr = sharpe / np.sqrt(ann_factor)
+        var_sr = np.var(sharpe, ddof=1) / ann_factor
+        sr0 = approx_exp_max_sharpe(0, var_sr, 3)
+        horizon = np.sum(~np.isnan(arr), axis=0)
+        g3 = skew(arr, axis=0, nan_policy="omit")
+        g4 = kurtosis(arr, axis=0, fisher=False, nan_policy="omit")
+        expected = norm.cdf((sr - sr0) * np.sqrt(horizon - 1) / np.sqrt(1 - g3 * sr + (g4 - 1) / 4 * sr**2))
+        np.testing.assert_allclose(acc.deflated_sharpe_ratio().values, expected)
+        # Gaussian returns recover the Lo (2002) standard error sqrt((1 + SR^2 / 2) / (T - 1))
+        gauss = np.random.normal(0.001, 0.01, size=(n, 3))
+        acc = pd.DataFrame(gauss, index=df.index, columns=df.columns).vbt.returns(freq="D", year_freq="365 days")
+        sharpe = acc.sharpe_ratio().values
+        sr = sharpe / np.sqrt(ann_factor)
+        sr0 = approx_exp_max_sharpe(0, np.var(sharpe, ddof=1) / ann_factor, 3)
+        g3 = skew(gauss, axis=0)
+        g4 = kurtosis(gauss, axis=0, fisher=False)
+        lo = norm.cdf((sr - sr0) * np.sqrt(n - 1) / np.sqrt(1 + sr**2 / 2))
+        exact = norm.cdf((sr - sr0) * np.sqrt(n - 1) / np.sqrt(1 - g3 * sr + (g4 - 1) / 4 * sr**2))
+        np.testing.assert_allclose(acc.deflated_sharpe_ratio().values, exact)
+        np.testing.assert_allclose(acc.deflated_sharpe_ratio().values, lo, atol=1e-3)
+
+    def test_deflated_sharpe_ratio_nan_is_not_zero_return(self):
+        """A missing return must not be counted as a zero-return period."""
+        np.random.seed(seed)
+        n = 300
+        arr = np.random.standard_t(4, size=(n, 3)) * 0.01 + 0.001
+        index = pd.date_range("2020", periods=n, freq="D")
+        full = pd.DataFrame(arr, index=index, columns=["a", "b", "c"])
+        with_nan = full.copy()
+        with_nan.iloc[10:60, 0] = np.nan
+        zero_filled = with_nan.fillna(0.0)
+        dropped = with_nan.iloc[np.r_[0:10, 60:n]]
+        kwargs = dict(var_sharpe=0.01, nb_trials=5)
+        dsr_nan = with_nan.vbt.returns(freq="D", year_freq="365 days").deflated_sharpe_ratio(**kwargs)
+        dsr_zero = zero_filled.vbt.returns(freq="D", year_freq="365 days").deflated_sharpe_ratio(**kwargs)
+        dsr_dropped = dropped.vbt.returns(freq="D", year_freq="365 days").deflated_sharpe_ratio(**kwargs)
+        assert not np.isclose(dsr_nan["a"], dsr_zero["a"], rtol=1e-3, atol=0)
+        assert np.isclose(dsr_nan["a"], dsr_dropped["a"], rtol=1e-12, atol=0)
 
     def test_downside_risk(self):
         assert isclose(rets["a"].vbt.returns.downside_risk(required_return=0.1), 0.0)

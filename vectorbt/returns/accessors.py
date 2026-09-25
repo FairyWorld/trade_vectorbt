@@ -602,17 +602,17 @@ class ReturnsAccessor(GenericAccessor):
         if nb_trials is None:
             nb_trials = self.wrapper.shape_2d[1]
         returns = to_2d_array(self.obj)
-        nanmask = np.isnan(returns)
-        if nanmask.any():
-            returns = returns.copy()
-            returns[nanmask] = 0.0
+        # Missing returns are excluded from the moments and the horizon rather than
+        # counted as zero-return periods, consistent with `ReturnsAccessor.sharpe_ratio`.
+        # The formula requires the (non-excess) kurtosis: it equals 3 for Gaussian
+        # returns, which recovers the classic Lo (2002) standard error of the Sharpe ratio.
         result = metrics.deflated_sharpe_ratio(
             est_sharpe=sharpe_ratio / np.sqrt(self.ann_factor),
             var_sharpe=var_sharpe / self.ann_factor,
             nb_trials=nb_trials,
-            backtest_horizon=self.wrapper.shape_2d[0],
-            skew=skew(returns, axis=0, bias=bias),
-            kurtosis=kurtosis(returns, axis=0, bias=bias),
+            backtest_horizon=np.sum(~np.isnan(returns), axis=0),
+            skew=skew(returns, axis=0, bias=bias, nan_policy="omit"),
+            kurtosis=kurtosis(returns, axis=0, bias=bias, fisher=False, nan_policy="omit"),
         )
         wrap_kwargs = merge_dicts(dict(name_or_index="deflated_sharpe_ratio"), wrap_kwargs)
         return self.wrapper.wrap_reduced(result, group_by=False, **wrap_kwargs)
