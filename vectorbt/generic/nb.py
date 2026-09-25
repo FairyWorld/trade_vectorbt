@@ -1020,7 +1020,7 @@ def expanding_min_1d_nb(a: tp.Array1d, minp: int = 1) -> tp.Array1d:
 
     Numba equivalent to `pd.Series(a).expanding(min_periods=minp).min()`."""
     out = np.empty_like(a, dtype=np.float64)
-    minv = a[0]
+    minv = np.nan
     cnt = 0
     for i in range(a.shape[0]):
         if np.isnan(minv) or a[i] < minv:
@@ -1049,7 +1049,7 @@ def expanding_max_1d_nb(a: tp.Array1d, minp: int = 1) -> tp.Array1d:
 
     Numba equivalent to `pd.Series(a).expanding(min_periods=minp).max()`."""
     out = np.empty_like(a, dtype=np.float64)
-    maxv = a[0]
+    maxv = np.nan
     cnt = 0
     for i in range(a.shape[0]):
         if np.isnan(maxv) or a[i] > maxv:
@@ -1852,8 +1852,8 @@ def get_drawdowns_nb(ts: tp.Array2d) -> tp.RecordArray:
         drawdown_started = False
         peak_idx = -1
         valley_idx = -1
-        peak_val = ts[0, col]
-        valley_val = ts[0, col]
+        peak_val = np.nan
+        valley_val = np.nan
         store_record = False
         status = -1
 
