@@ -8,6 +8,7 @@ from numba import njit
 from sklearn.model_selection import TimeSeriesSplit
 
 import vectorbt as vbt
+from vectorbt import _engine
 from vectorbt.generic import dispatch, nb
 
 seed = 42
@@ -376,6 +377,25 @@ class TestAccessors:
             df.expanding(min_periods=test_minp).std(ddof=test_ddof),
         )
         pd.testing.assert_frame_equal(df.vbt.expanding_std(), df.expanding().std())
+
+    @pytest.mark.parametrize("test_engine", ["numba", "rust"])
+    def test_expanding_minp_above_length(self, test_engine):
+        """Both engines return NaN like pandas when minp exceeds the number of rows."""
+        if test_engine == "rust" and not _engine.is_rust_available():
+            pytest.skip("vectorbt-rust is not installed or version-compatible")
+        minp = len(df.index) + 2
+        pd.testing.assert_frame_equal(
+            df.vbt.expanding_mean(minp=minp, engine=test_engine), df.expanding(min_periods=minp).mean()
+        )
+        pd.testing.assert_frame_equal(
+            df.vbt.expanding_std(minp=minp, ddof=1, engine=test_engine), df.expanding(min_periods=minp).std(ddof=1)
+        )
+        pd.testing.assert_series_equal(
+            df["a"].vbt.expanding_mean(minp=minp, engine=test_engine), df["a"].expanding(min_periods=minp).mean()
+        )
+        pd.testing.assert_series_equal(
+            df["a"].vbt.expanding_std(minp=minp, engine=test_engine), df["a"].expanding(min_periods=minp).std()
+        )
 
     def test_apply_along_axis(self):
         pd.testing.assert_frame_equal(

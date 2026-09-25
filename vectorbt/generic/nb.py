@@ -1077,13 +1077,13 @@ def expanding_mean_1d_nb(a: tp.Array1d, minp: int = 1) -> tp.Array1d:
     """Return expanding mean.
 
     Numba equivalent to `pd.Series(a).expanding(min_periods=minp).mean()`."""
-    return rolling_mean_1d_nb(a, a.shape[0], minp=minp)
+    return rolling_mean_1d_nb(a, max(a.shape[0], minp), minp=minp)
 
 
 @njit(cache=True)
 def expanding_mean_nb(a: tp.Array2d, minp: int = 1) -> tp.Array2d:
     """2-dim version of `expanding_mean_1d_nb`."""
-    return rolling_mean_nb(a, a.shape[0], minp=minp)
+    return rolling_mean_nb(a, max(a.shape[0], minp), minp=minp)
 
 
 @njit(cache=True)
@@ -1091,13 +1091,13 @@ def expanding_std_1d_nb(a: tp.Array1d, minp: int = 1, ddof: int = 0) -> tp.Array
     """Return expanding standard deviation.
 
     Numba equivalent to `pd.Series(a).expanding(min_periods=minp).std(ddof=ddof)`."""
-    return rolling_std_1d_nb(a, a.shape[0], minp=minp, ddof=ddof)
+    return rolling_std_1d_nb(a, max(a.shape[0], minp), minp=minp, ddof=ddof)
 
 
 @njit(cache=True)
 def expanding_std_nb(a: tp.Array2d, minp: int = 1, ddof: int = 0) -> tp.Array2d:
     """2-dim version of `expanding_std_1d_nb`."""
-    return rolling_std_nb(a, a.shape[0], minp=minp, ddof=ddof)
+    return rolling_std_nb(a, max(a.shape[0], minp), minp=minp, ddof=ddof)
 
 
 # ############# Apply functions ############# #
