@@ -5,7 +5,7 @@
 
 !!! tip "VectorBT PRO"
 
-    [Numba datetime functions](https://vectorbt.pro/features/productivity/#numba-datetime)
+    [Numba datetime functions](https://vectorbt.pro/features/tooling/time-series-operations/#numba-datetime)
     extract time and weekday information from timestamps inside compiled code, for example
     to restrict calculations to trading hours.
 

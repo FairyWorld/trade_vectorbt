@@ -63,9 +63,9 @@ Run for the examples below:
 
 !!! tip "VectorBT PRO"
 
-    [Create portfolios from execution records](https://vectorbt.pro/features/portfolio/#portfolio-from-fills),
-    model futures with [contract multipliers](https://vectorbt.pro/features/portfolio/#contract-multiplier), or
-    [continue simulations as new data arrives](https://vectorbt.pro/features/portfolio/#portfolio-continuation).
+    [Create portfolios from execution records](https://vectorbt.pro/features/backtesting/orders-and-execution/#portfolio-from-fills),
+    model futures with [contract multipliers](https://vectorbt.pro/features/backtesting/orders-and-execution/#contract-multiplier), or
+    [continue simulations as new data arrives](https://vectorbt.pro/features/backtesting/backtesting-engine/#portfolio-continuation).
     The [portfolio documentation preview](https://vectorbt.pro/documentation/portfolio/)
     shows the available simulation methods and analysis topics.
 

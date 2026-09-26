@@ -83,10 +83,10 @@ z  7  8  9
 
 !!! tip "VectorBT PRO"
 
-    [Array expressions](https://vectorbt.pro/features/productivity/#array-expressions) align and
-    broadcast arrays before evaluating a formula. [Index dictionaries](https://vectorbt.pro/features/productivity/#index-dictionaries)
+    [Array expressions](https://vectorbt.pro/features/tooling/time-series-operations/#array-expressions) align and
+    broadcast arrays before evaluating a formula. [Index dictionaries](https://vectorbt.pro/features/tooling/time-series-operations/#index-dictionaries)
     let you assign values by date and asset without constructing full arrays yourself.
-    Supported calculations can also [process columns in parallel](https://vectorbt.pro/features/performance/#parallel-numba).
+    Supported calculations can also [process columns in parallel](https://vectorbt.pro/features/performance/compute-backends/#parallel-numba).
 
 ## Data
 
@@ -196,10 +196,10 @@ Data updated with 5 data points
 
 !!! tip "VectorBT PRO"
 
-    Read market data from [Databento](https://vectorbt.pro/features/data/#databento),
-    load local [CSV and HDF5 files](https://vectorbt.pro/features/data/#local-data), or run
-    [SQL queries](https://vectorbt.pro/features/data/#sql-queries) on data objects.
-    [Data caching](https://vectorbt.pro/features/data/#data-caching) saves fetched data to disk for reuse.
+    Read market data from [Databento](https://vectorbt.pro/features/data/market-data-sources/#databento),
+    load local [CSV and HDF5 files](https://vectorbt.pro/features/data/data-storage-and-databases/#local-data), or run
+    [SQL queries](https://vectorbt.pro/features/data/data-storage-and-databases/#sql-queries) on data objects.
+    [Data caching](https://vectorbt.pro/features/data/data-storage-and-databases/#data-caching) saves fetched data to disk for reuse.
 
 ## Indicators
 
@@ -275,9 +275,9 @@ custom_sigma       0.01        0.01
 
 !!! tip "VectorBT PRO"
 
-    Build indicators from [expressions](https://vectorbt.pro/features/indicators/#indicator-expressions),
-    calculate [rolling regressions](https://vectorbt.pro/features/indicators/#rolling-ols), or use
-    [WorldQuant's 101 alphas](https://vectorbt.pro/features/indicators/#worldquant-alphas).
+    Build indicators from [expressions](https://vectorbt.pro/features/indicators/indicator-development/#indicator-expressions),
+    calculate [rolling regressions](https://vectorbt.pro/features/indicators/technical-indicators/#rolling-ols), or use
+    [WorldQuant's 101 alphas](https://vectorbt.pro/features/indicators/technical-indicators/#worldquant-alphas).
     The [multiple-timeframe tutorial](https://vectorbt.pro/tutorials/mtf-analysis/)
     shows how to combine indicators calculated at different frequencies.
 
@@ -353,9 +353,9 @@ rprobnx_exit_prob     0.5    1.0    0.5    1.0
 
 !!! tip "VectorBT PRO"
 
-    Detect [confirmed price pivots](https://vectorbt.pro/features/indicators/#pivot-detection)
-    and [outliers](https://vectorbt.pro/features/indicators/#signal-detection), or
-    [backtest each signal individually](https://vectorbt.pro/features/indicators/#signal-unraveling).
+    Detect [confirmed price pivots](https://vectorbt.pro/features/indicators/trading-signals/#pivot-detection)
+    and [outliers](https://vectorbt.pro/features/indicators/trading-signals/#signal-detection), or
+    [backtest each signal individually](https://vectorbt.pro/features/indicators/trading-signals/#signal-unraveling).
     See the [signal development tutorial](https://vectorbt.pro/tutorials/signal-development/)
     for examples of building entry and exit signals.
 
@@ -408,10 +408,10 @@ rprobnx_exit_prob     0.5    1.0    0.5    1.0
 
 !!! tip "VectorBT PRO"
 
-    Simulate [limit orders](https://vectorbt.pro/features/portfolio/#limit-orders),
-    [leverage](https://vectorbt.pro/features/portfolio/#leverage),
-    [stop ladders](https://vectorbt.pro/features/portfolio/#stop-laddering), and
-    [cash deposits and withdrawals](https://vectorbt.pro/features/portfolio/#cash-deposits).
+    Simulate [limit orders](https://vectorbt.pro/features/backtesting/orders-and-execution/#limit-orders),
+    [leverage](https://vectorbt.pro/features/backtesting/orders-and-execution/#leverage),
+    [stop ladders](https://vectorbt.pro/features/backtesting/signals-and-stops/#stop-laddering), and
+    [cash deposits and withdrawals](https://vectorbt.pro/features/backtesting/portfolio-accounting/#cash-deposits).
     The [portfolio optimization tutorial](https://vectorbt.pro/tutorials/portfolio-optimization/)
     covers asset allocation and rebalancing.
 
@@ -515,10 +515,10 @@ dtype: float64
 
 !!! tip "VectorBT PRO"
 
-    Find [price patterns](https://vectorbt.pro/features/analysis/#patterns) and analyze subsequent
-    price movements with [event projections](https://vectorbt.pro/features/analysis/#projections).
-    Measure [maximum adverse and favorable excursion (MAE and MFE)](https://vectorbt.pro/features/analysis/#mae-and-mfe)
-    and [edge ratio](https://vectorbt.pro/features/analysis/#edge-ratio) to examine trade entries and exits.
+    Find [price patterns](https://vectorbt.pro/features/analytics/patterns-and-event-studies/#patterns) and analyze subsequent
+    price movements with [event projections](https://vectorbt.pro/features/analytics/patterns-and-event-studies/#projections).
+    Measure [maximum adverse and favorable excursion (MAE and MFE)](https://vectorbt.pro/features/analytics/trade-analytics/#mae-and-mfe)
+    and [edge ratio](https://vectorbt.pro/features/analytics/trade-analytics/#edge-ratio) to examine trade entries and exits.
 
 ## Plotting
 
@@ -582,9 +582,9 @@ dtype: float64
 
 !!! tip "VectorBT PRO"
 
-    Plot [TA-Lib indicator outputs](https://vectorbt.pro/features/indicators/#ta-lib-plotting)
-    or [long and short trade signals](https://vectorbt.pro/features/analysis/#trade-signals).
-    [Portfolio slicing](https://vectorbt.pro/features/productivity/#slicing) lets you select
+    Plot [TA-Lib indicator outputs](https://vectorbt.pro/features/indicators/technical-indicators/#ta-lib-plotting)
+    or [long and short trade signals](https://vectorbt.pro/features/analytics/trade-analytics/#trade-signals).
+    [Portfolio slicing](https://vectorbt.pro/features/tooling/time-series-operations/#slicing) lets you select
     and plot a date range without running the simulation again.
 
 ## Extra
@@ -678,6 +678,6 @@ dtype: float64
 
 !!! tip "VectorBT PRO"
 
-    Run independent functions in parallel with [tasks](https://vectorbt.pro/features/productivity/#tasks),
-    inspect memory use with the [caching registry](https://vectorbt.pro/features/performance/#caching),
-    and save objects in readable [configuration files](https://vectorbt.pro/features/productivity/#configuration-files).
+    Run independent functions in parallel with [tasks](https://vectorbt.pro/features/tooling/workflow-automation/#tasks),
+    inspect memory use with the [caching registry](https://vectorbt.pro/features/performance/parallel-execution-and-caching/#caching),
+    and save objects in readable [configuration files](https://vectorbt.pro/features/tooling/workflow-automation/#configuration-files).

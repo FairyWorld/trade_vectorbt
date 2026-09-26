@@ -136,9 +136,9 @@ print(pf.total_profit())
 > [!TIP]
 > **VectorBT PRO**
 >
-> Simulate [limit orders](https://vectorbt.pro/features/portfolio/#limit-orders),
-> use [leverage](https://vectorbt.pro/features/portfolio/#leverage), and model futures with
-> [contract multipliers](https://vectorbt.pro/features/portfolio/#contract-multiplier).
+> Simulate [limit orders](https://vectorbt.pro/features/backtesting/orders-and-execution/#limit-orders),
+> use [leverage](https://vectorbt.pro/features/backtesting/orders-and-execution/#leverage), and model futures with
+> [contract multipliers](https://vectorbt.pro/features/backtesting/orders-and-execution/#contract-multiplier).
 
 ### Generate 1,000 random strategies
 
@@ -184,8 +184,8 @@ fig.show()
 > [!TIP]
 > **VectorBT PRO**
 >
-> Use [random search](https://vectorbt.pro/features/optimization/#random-search) to sample a large
-> parameter grid, or [conditional parameters](https://vectorbt.pro/features/optimization/#conditional-parameters)
+> Use [random search](https://vectorbt.pro/features/optimization/strategy-optimization/#random-search) to sample a large
+> parameter grid, or [conditional parameters](https://vectorbt.pro/features/optimization/strategy-optimization/#conditional-parameters)
 > to exclude combinations such as a fast MA window longer than the slow MA window. The
 > [cross-validation tutorial](https://vectorbt.pro/tutorials/cross-validation/)
 > shows how to select parameters on training data and evaluate them on later periods.

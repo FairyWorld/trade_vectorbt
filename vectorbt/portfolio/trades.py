@@ -19,9 +19,9 @@ of the entire symbol.
 
 !!! tip "VectorBT PRO"
 
-    Track [MAE and MFE throughout each trade](https://vectorbt.pro/features/analysis/#expanding-trade-metrics),
-    measure [edge ratio](https://vectorbt.pro/features/analysis/#edge-ratio), and inspect
-    [trade history](https://vectorbt.pro/features/analysis/#trade-history) with orders, entry trades,
+    Track [MAE and MFE throughout each trade](https://vectorbt.pro/features/analytics/trade-analytics/#expanding-trade-metrics),
+    measure [edge ratio](https://vectorbt.pro/features/analytics/trade-analytics/#edge-ratio), and inspect
+    [trade history](https://vectorbt.pro/features/analytics/trade-analytics/#trade-history) with orders, entry trades,
     exit trades, and positions in one table.
 
 ## Trade types
